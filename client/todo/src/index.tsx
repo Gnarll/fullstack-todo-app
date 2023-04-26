@@ -1,10 +1,16 @@
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { Provider } from "react-redux";
-import { createStore } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
 import { rootReducer } from "./redux/rootReducer";
+import createSagaMiddleware from "redux-saga";
+import { sagaWatcher } from "./redux/saga/sagas";
 
-const store = createStore(rootReducer);
+const saga = createSagaMiddleware();
+
+const store = createStore(rootReducer, compose(applyMiddleware(saga)));
+
+saga.run(sagaWatcher);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

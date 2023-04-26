@@ -10,13 +10,8 @@ export const TodoForm = () => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!title.trim()) return;
-    const todoObject = {
-      title,
-      done: false,
-    };
 
-    //@ts-ignore
-    dispatch(createTodo(todoObject));
+    dispatch(createTodo(title));
     setTitle("");
   };
 
