@@ -7,6 +7,15 @@ import {
 } from "../../types/types";
 import { TodoApi } from "../../api";
 
+function* SagaGetTodos(): Generator<Effect, void, ITodo[]> {
+  try {
+    const todos = yield call(TodoApi.getTodos);
+    yield put({ type: ITodoActionTypes.GET_TODOS_SUCCESS, payload: todos });
+  } catch (error) {
+    console.log("Error", error);
+  }
+}
+
 function* sagaCreateTodo(action: ICreateAction): Generator<Effect, void> {
   try {
     const todoObject: Partial<ITodo> = {
@@ -36,4 +45,5 @@ function* sagaDeleteTodo(action: IDeleteAction): Generator<Effect, void> {
 export function* sagaWatcher(): Generator<Effect, void> {
   yield takeEvery(ITodoActionTypes.CREATE_TODO, sagaCreateTodo);
   yield takeEvery(ITodoActionTypes.DELETE_TODO, sagaDeleteTodo);
+  yield takeEvery(ITodoActionTypes.GET_TODOS, SagaGetTodos);
 }

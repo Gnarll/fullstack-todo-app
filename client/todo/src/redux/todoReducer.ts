@@ -12,6 +12,9 @@ export const todoReducer = (
     case ITodoActionTypes.CREATE_TODO_SUCCESS: {
       return { todos: [...state.todos, action.payload] };
     }
+    case ITodoActionTypes.GET_TODOS_SUCCESS: {
+      return { ...state, todos: action.payload };
+    }
     case ITodoActionTypes.DELETE_TODO_SUCCESS: {
       return {
         ...state,
