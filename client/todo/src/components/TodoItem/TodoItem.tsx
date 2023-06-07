@@ -20,10 +20,7 @@ export const TodoItem = ({
 
   const handleSubmit = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      console.log(1);
-
       changeTodo(newTitle, todo.done, todo.id);
-      console.log(newTitle);
       setIsTodoEdit(!isTodoEdit);
     }
   };
@@ -41,11 +38,11 @@ export const TodoItem = ({
   };
   return (
     <li
-      className={`list-group-item d-flex justify-content-between align-items-center ${
+      className={`todo-item list-group-item d-flex justify-content-between align-items-center ${
         todo.done ? "list-group-item-success" : ""
       }`}
     >
-      <div onKeyDown={handleSubmit}>
+      <div className="todo-text" onKeyDown={handleSubmit}>
         {isTodoEdit ? (
           <input type="text" onChange={handleTitleChange} />
         ) : (
@@ -54,22 +51,14 @@ export const TodoItem = ({
           </span>
         )}
       </div>
-      <div className="">
-        <button
-          style={{ marginRight: "10px" }}
-          className="btn btn-primary"
-          onClick={handleTodoEdit}
-        >
+      <div className="todo-btns">
+        <button className="btn btn-primary todo-btn " onClick={handleTodoEdit}>
           Изменить
         </button>
-        <button
-          style={{ marginRight: "10px" }}
-          onClick={handleComplete}
-          className="btn btn-success"
-        >
+        <button onClick={handleComplete} className="btn btn-success todo-btn">
           {!todo.done ? "Завершить" : "Возобновить"}
         </button>
-        <button className="btn btn-danger" onClick={handleDelete}>
+        <button className="btn btn-danger todo-btn" onClick={handleDelete}>
           Удалить
         </button>
       </div>
