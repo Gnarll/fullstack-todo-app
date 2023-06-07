@@ -6,4 +6,7 @@ export class TodoApi {
     const res = await axios.post("http://localhost:4000/todos", todo);
     return res.data;
   }
+  static async deleteTodo(id: string): Promise<void> {
+    await axios.delete(`http://localhost:4000/todos/${id}`);
+  }
 }
