@@ -1,5 +1,6 @@
 import { call, put, Effect, takeEvery } from "redux-saga/effects";
 import {
+  ICompleteAction,
   ICreateAction,
   IDeleteAction,
   ITodo,
@@ -7,7 +8,7 @@ import {
 } from "../../types/types";
 import { TodoApi } from "../../api";
 
-function* SagaGetTodos(): Generator<Effect, void, ITodo[]> {
+function* sagaGetTodos(): Generator<Effect, void, ITodo[]> {
   try {
     const todos = yield call(TodoApi.getTodos);
     yield put({ type: ITodoActionTypes.GET_TODOS_SUCCESS, payload: todos });
@@ -42,8 +43,27 @@ function* sagaDeleteTodo(action: IDeleteAction): Generator<Effect, void> {
   }
 }
 
+function* sagaCompleteTodo(
+  action: ICompleteAction<ITodo>
+): Generator<Effect, void> {
+  try {
+    const todoObject: Partial<ITodo> = {
+      done: action.payload.done,
+      id: action.payload.id,
+    };
+    yield call(TodoApi.completeTodo, todoObject);
+    yield put({
+      type: ITodoActionTypes.COMPLETE_TODO_SUCCESS,
+      payload: action.payload.id,
+    });
+  } catch (error) {
+    console.log("Error", error);
+  }
+}
+
 export function* sagaWatcher(): Generator<Effect, void> {
   yield takeEvery(ITodoActionTypes.CREATE_TODO, sagaCreateTodo);
   yield takeEvery(ITodoActionTypes.DELETE_TODO, sagaDeleteTodo);
-  yield takeEvery(ITodoActionTypes.GET_TODOS, SagaGetTodos);
+  yield takeEvery(ITodoActionTypes.GET_TODOS, sagaGetTodos);
+  yield takeEvery(ITodoActionTypes.COMPLETE_TODO, sagaCompleteTodo);
 }

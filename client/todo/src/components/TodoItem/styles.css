@@ -1,0 +1,5 @@
+.title-done {
+    opacity: .5;
+    text-decoration: line-through;
+    transition: opacity .3 ease-in-out;
+}

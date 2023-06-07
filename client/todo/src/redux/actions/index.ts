@@ -19,3 +19,13 @@ export const deleteTodo = (payload: string) => {
     payload,
   };
 };
+
+export const completeTodo = (id: string, done: boolean) => {
+  return {
+    type: ITodoActionTypes.COMPLETE_TODO,
+    payload: {
+      id,
+      done,
+    },
+  };
+};
