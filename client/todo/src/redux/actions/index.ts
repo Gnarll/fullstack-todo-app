@@ -29,3 +29,14 @@ export const completeTodo = (id: string, done: boolean) => {
     },
   };
 };
+
+export const editTodo = (id: string, done: boolean, title: string) => {
+  return {
+    type: ITodoActionTypes.EDIT_TODO,
+    payload: {
+      id,
+      done,
+      title,
+    },
+  };
+};

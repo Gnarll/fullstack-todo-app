@@ -17,4 +17,12 @@ export class TodoApi {
   static async completeTodo(todo: Partial<ITodo>): Promise<void> {
     await axios.patch(`http://localhost:4000/todos/${todo.id}`, todo);
   }
+
+  static async editTodo(todo: Partial<ITodo>): Promise<void> {
+    const res = await axios.patch(
+      `http://localhost:4000/todos/${todo.id}`,
+      todo
+    );
+    return res.data[1][0];
+  }
 }

@@ -21,6 +21,17 @@ export const todoReducer = (
         todos: state.todos.filter((todo) => todo.id != action.payload),
       };
     }
+    case ITodoActionTypes.EDIT_TODO_SUCCESS: {
+      const newTodos = [...state.todos];
+      const completeIndex = state.todos.findIndex(
+        (todo) => todo.id === action.id
+      );
+
+      if (completeIndex === -1) return state;
+
+      newTodos[completeIndex] = action.payload;
+      return { ...state, todos: newTodos };
+    }
     case ITodoActionTypes.COMPLETE_TODO_SUCCESS: {
       const newTodos = [...state.todos];
       const completeIndex = state.todos.findIndex(

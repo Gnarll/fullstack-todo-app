@@ -3,6 +3,7 @@ import {
   ICompleteAction,
   ICreateAction,
   IDeleteAction,
+  IEditAction,
   ITodo,
   ITodoActionTypes,
 } from "../../types/types";
@@ -61,9 +62,28 @@ function* sagaCompleteTodo(
   }
 }
 
+function* sagaEditTodo(action: IEditAction): Generator<Effect, void, ITodo> {
+  try {
+    const todoObject: Partial<ITodo> = {
+      done: action.payload.done,
+      id: action.payload.id,
+      title: action.payload.title,
+    };
+    const todo = yield call(TodoApi.editTodo, todoObject);
+    yield put({
+      type: ITodoActionTypes.EDIT_TODO_SUCCESS,
+      payload: todo,
+      id: action.payload.id,
+    });
+  } catch (error) {
+    console.log("Error", error);
+  }
+}
+
 export function* sagaWatcher(): Generator<Effect, void> {
   yield takeEvery(ITodoActionTypes.CREATE_TODO, sagaCreateTodo);
   yield takeEvery(ITodoActionTypes.DELETE_TODO, sagaDeleteTodo);
   yield takeEvery(ITodoActionTypes.GET_TODOS, sagaGetTodos);
   yield takeEvery(ITodoActionTypes.COMPLETE_TODO, sagaCompleteTodo);
+  yield takeEvery(ITodoActionTypes.EDIT_TODO, sagaEditTodo);
 }
